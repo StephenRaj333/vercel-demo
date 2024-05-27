@@ -1,17 +1,15 @@
-// Import packages
-import express from 'express';
-
-// Middlewares
+const express = require('express');
 const app = express();
-app.use(express.json());
 
-// Routes
-app.get('/home', (req, res) => { 
-    res.send({
-        title: "Stephen",   
-        desc: "Description of the Page"
-    });
+// Use the PORT environment variable, or default to 3000 if not set
+const PORT = process.env.PORT || 3000;
+
+// Define a simple route
+app.get('/', (req, res) => {
+    res.send('Hello, world!');
 });
 
-// Export the Express app as a module       
-module.exports = app;   
+// Start the server
+app.listen(PORT, () => {
+    console.log(`Server is running on port ${PORT}`);
+}); 
