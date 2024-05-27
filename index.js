@@ -5,8 +5,11 @@ const app = express();
 const PORT = process.env.PORT || 3000;
 
 // Define a simple route
-app.get('/', (req, res) => {
-    res.send('Hello, world!');
+app.get('/home', (req, res) => {
+    res.send({
+        title: "Title",
+        desc: "description"
+    }); 
 });
 
 // Start the server
