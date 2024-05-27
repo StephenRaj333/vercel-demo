@@ -1,19 +1,17 @@
 // Import packages
-const express = require("express");
+import express from 'express';
 
 // Middlewares
 const app = express();
 app.use(express.json());
 
-const port = 9000;  
-
 // Routes
-app.get('/',(req,res) => {
+app.get('/home', (req, res) => { 
     res.send({
-        titlte: "Stephen",
-        desc : "Description of the Page"
-    })  
-})   
+        title: "Stephen",   
+        desc: "Description of the Page"
+    });
+});
 
-
-app.listen(port, () => console.log(`Listening to port ${port}`));
+// Export the Express app as a module       
+module.exports = app;   
