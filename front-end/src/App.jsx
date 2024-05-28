@@ -1,33 +1,66 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
+import { useEffect, useState } from 'react';
+import Axios from 'axios';
 import './App.css'
 
 function App() {
-  const [count, setCount] = useState(0)
+  const [data, setData] = useState({
+    title: "",
+    desc: ""
+  });
+  const [tableData, setTableData] = useState([]);    
+
+  const handleChange = (e) => { 
+    setData({...data, [e.target.name]: e.target.value});  
+  } 
+
+  const handleSubmit = (e) => {   
+    e.preventDefault();     
+    const newData = {...data,id: tableData.length + 1};  
+    Axios.post("https://vercel-demo-git-main-stephenraj333s-projects.vercel.app/post",newData). 
+    then((res) => console.log(res.data)). 
+    catch((err) => console.log(err)); 
+  }   
 
   return (
     <>
-      <div>
-        <a href="https://vitejs.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
+      <div className='App'>
+        <h5>Form Container</h5> 
+          <div className='form-container'>
+          <form onSubmit={handleSubmit}>
+            <div className="form-group">
+              <label htmlFor="title">Title:</label>
+              <input type="text" className='form-control' name='title' value={data.title} onChange={handleChange} />
+            </div>
+            <div className="form-group">
+              <label htmlFor="desc">Description</label>
+              <input type="text" className='form-control' name='desc' value={data.desc} onChange={handleChange} />  
+            </div>
+            <button className='btn btn-primary w-25 mt-4'>Submit</button>   
+          </form> 
+          </div>
+          <div className='table-container mt-5'>    
+              <table className='table table-striped'>
+                  <thead>
+                    <tr>
+                      <th>S.no</th>
+                      <th>Titlte</th>
+                      <th>Description</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {tableData?.map((item,index) => {
+                      return (  
+                        <tr key={index}>    
+                            <td>{item.id}</td>
+                            <td>{item.title}</td>
+                            <td>{item.desc}</td>
+                        </tr>  
+                      )
+                    })}
+                  </tbody>
+              </table>
+          </div>
       </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
     </>
   )
 }
